@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Validate from './Validation/ValidationComponent';
+import CharComponent from './CharComponent/CharComponent';
 
 function App() {
+  const [length, setLength] = useState(0);
+  const [text, setText] = useState("");
+  const onChangeListener = (event) => {
+    setLength(event.target.value.length);
+    setText(event.target.value);
+  };
+  const onCharClick = index => {
+    let temp = text.split('');
+    temp = temp.filter((value, charIndex) => index !== charIndex);
+    setLength(temp.length);
+    setText(temp.join(''));
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>Length: {length}</p>
+      <input type='text' onChange={onChangeListener} value={text}/>
+      <Validate length={length}/>
+      <CharComponent text={text} onClick={onCharClick}/>
     </div>
   );
 }
